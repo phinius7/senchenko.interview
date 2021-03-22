@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body class="bg-light">
+<nav th:replace="fragments/header :: navbar"></nav>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <div class="content p-4">
+        <div class="card-body">
+            <table id="lectures" class="table table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th class="actions">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${presentation}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.title}"></td>
+                    <td th:text="${p.authors}"></td>
+                    <td>
+                        <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_PRESENTER')"
+                           th:href="@{'/lectures/edit/' + ${p.id}}" class="btn btn-icon btn-pill btn-primary"
+                           data-toggle="tooltip" title="" data-original-title="Edit"><i
+                                class="fa fa-fw fa-edit"></i></a>
+                        <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_PRESENTER')" th:href="@{'/lectures/delete/' + ${p.id}}"
+                           class="btn btn-icon btn-pill btn-danger"
+                           data-toggle="tooltip" title="" data-original-title="Delete"><i
+                                class="fa fa-fw fa-trash"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-body">
+            <a class="btn btn-primary btn-lg btn-block btn-pill" th:href="@{/lectures/add/}">Create</a>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/footer :: scripts"></script>
+
+</body>
+</html>

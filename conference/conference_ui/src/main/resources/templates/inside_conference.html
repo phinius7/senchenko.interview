@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body class="bg-light">
+<nav th:replace="fragments/header :: navbar"></nav>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <div class="content p-4">
+        <h2 class="mb-4">The Conference</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="form-group">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Fuga doloremque fugit recusandae similique quam perferendis corporis nulla molestias tenetur
+                        ducimus
+                        libero
+                        dolore consequatur consequuntur, quod ad minima iusto qui a beatae, repudiandae, maxime
+                        laudantium.
+                        Natus
+                        aliquid doloremque corporis quos nesciunt obcaecati officiis omnis sunt neque sequi molestiae
+                        optio,
+                        repellendus tenetur maxime assumenda corrupti veniam dignissimos tempore! Unde blanditiis
+                        reiciendis
+                        doloremque vel tempore laudantium sapiente iusto voluptatibus sit debitis, labore cumque
+                        adipisci,
+                        mollitia
+                        ratione nulla! Repudiandae dicta voluptatem, corporis ratione itaque quis cupiditate maiores
+                        perspiciatis
+                        delectus facilis nihil animi ex non dolor quia dignissimos voluptates, esse neque necessitatibus
+                        distinctio
+                        quas consequuntur?</p>
+                </div>
+            </div>
+            <hr>
+            <div class="card-body">
+                <a class="btn btn-primary btn-pill" th:href="@{/}">Go back</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script th:replace="fragments/footer :: scripts"></script>
+
+</body>
+</html>

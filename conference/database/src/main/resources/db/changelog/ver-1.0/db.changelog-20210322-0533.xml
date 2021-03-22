@@ -1,0 +1,114 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="senchenko (generated)" id="1616391216639-1">
+        <createTable tableName="listeners_presentations">
+            <column name="listener_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="presentation_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-2">
+        <createTable tableName="presentations">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="presentationsPK"/>
+            </column>
+            <column name="title" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-3">
+        <createTable tableName="presentations_authors">
+            <column name="presentation_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-4">
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="rolesPK"/>
+            </column>
+            <column name="title" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-5">
+        <createTable tableName="rooms">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="roomsPK"/>
+            </column>
+            <column name="classroom" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-6">
+        <createTable tableName="schedules">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="schedulesPK"/>
+            </column>
+            <column name="end_time" type="datetime(6)"/>
+            <column name="start_time" type="datetime(6)"/>
+            <column name="presentation_id" type="BIGINT"/>
+            <column name="room_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-7">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="usersPK"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="firstname" type="VARCHAR(255)"/>
+            <column name="lastname" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="username" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-8">
+        <createTable tableName="users_roles">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-9">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="users_roles" constraintName="FK2o0jvgh89lemvvo17cbqvdxaa" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-10">
+        <addForeignKeyConstraint baseColumnNames="room_id" baseTableName="schedules" constraintName="FK34r5t4jexlcas19pleifb8ihv" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="rooms" validate="true"/>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-11">
+        <addForeignKeyConstraint baseColumnNames="listener_id" baseTableName="listeners_presentations" constraintName="FK72cr8r8flrm9u3jwlg596rewb" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-12">
+        <addForeignKeyConstraint baseColumnNames="presentation_id" baseTableName="listeners_presentations" constraintName="FK84a2ni7ttbay36e38u54h1j67" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="presentations" validate="true"/>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-13">
+        <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="presentations_authors" constraintName="FK8mcsfc160olgjl9iv456rna58" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-14">
+        <addForeignKeyConstraint baseColumnNames="presentation_id" baseTableName="presentations_authors" constraintName="FKet8ewy3fptcnamk5x3ukmxd3n" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="presentations" validate="true"/>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-15">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="users_roles" constraintName="FKj6m8fwv7oqv74fcehir1a9ffy" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="roles" validate="true"/>
+    </changeSet>
+    <changeSet author="senchenko (generated)" id="1616391216639-16">
+        <addForeignKeyConstraint baseColumnNames="presentation_id" baseTableName="schedules" constraintName="FKns8u6ds9h9umnftk6vp6x73s8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="presentations" validate="true"/>
+    </changeSet>
+    <changeSet author="senchenko" id="init-data">
+    <sqlFile dbms="mysql"
+             encoding="UTF-8"
+             endDelimiter="\nGO"
+             path="insert-default-entities.sql"
+             relativeToChangelogFile="true"
+             splitStatements="true"
+             stripComments="true"/>
+    <rollback/>
+</changeSet>
+</databaseChangeLog>
