@@ -5,14 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import senchenko.interview.entities.Role;
 import senchenko.interview.entities.User;
 import senchenko.interview.services.RoleServiceImpl;
-import senchenko.interview.services.UserService;
 import senchenko.interview.services.UserServiceImpl;
 
 import javax.validation.Valid;
@@ -49,7 +45,13 @@ public class RegistrationController {
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
-        userService.authenticateUser(user);
         return "redirect:/";
+    }
+
+    @PostMapping("create-rest")
+    @ResponseBody
+    public void creteUser(@RequestBody User user) {
+        user.setId(null);
+        userService.saveUser(user);
     }
 }

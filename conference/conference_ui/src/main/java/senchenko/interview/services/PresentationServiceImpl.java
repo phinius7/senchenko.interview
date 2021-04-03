@@ -33,4 +33,8 @@ public class PresentationServiceImpl implements PresentationService {
     public void deletePresentationById(Long id) {
         presentationRepository.deleteById(id);
     }
+
+    public Presentation saveOrUpdate(Presentation presentation) {
+        return presentationRepository.save(presentation);
+    }
 }

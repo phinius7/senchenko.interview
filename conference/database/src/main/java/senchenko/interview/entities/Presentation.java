@@ -3,7 +3,6 @@ package senchenko.interview.entities;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import senchenko.interview.entities.views.CommonView;
-import senchenko.interview.entities.views.ScheduleView;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,10 +14,11 @@ public class Presentation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(CommonView.Id.class)
     private Long id;
 
     @Column(name = "title")
-    @JsonView(ScheduleView.ScheduleInfo.class)
+    @JsonView(CommonView.CommonFull.class)
     private String title;
 
     @ManyToMany

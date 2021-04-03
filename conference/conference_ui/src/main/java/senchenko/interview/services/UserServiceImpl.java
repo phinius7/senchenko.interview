@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -52,25 +52,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     public User getByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+        return userRepository.findUserByUsername(username).get();
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = getByUsername(username);
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+    public User saveOrUpdate(User user) {
+        return userRepository.save(user);
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getTitle())).collect(Collectors.toList());
-    }
-
-    public void authenticateUser(User user){
-        List<Role> roles = user.getRoles().stream().distinct().collect(Collectors.toList());
-        List<GrantedAuthority> authorities = roles.stream()
-                .map(p -> new SimpleGrantedAuthority(p.getTitle()))
-                .collect(Collectors.toList());
-        Authentication authentication = new UsernamePasswordAuthenticationToken(new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities), null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
 }

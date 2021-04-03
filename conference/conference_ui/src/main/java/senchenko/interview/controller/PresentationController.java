@@ -1,6 +1,8 @@
 package senchenko.interview.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import senchenko.interview.entities.Presentation;
 import senchenko.interview.entities.Schedule;
 import senchenko.interview.entities.User;
+import senchenko.interview.entities.views.CommonView;
 import senchenko.interview.services.PresentationServiceImpl;
 import senchenko.interview.services.RoomServiceImpl;
 import senchenko.interview.services.ScheduleServiceImpl;
@@ -109,4 +112,37 @@ public class PresentationController {
         presentationService.deletePresentationById(id);
         return "redirect:/lectures";
     }
+
+    @GetMapping( "/rest")
+    @ResponseBody
+    public List<Presentation> sendPresentationsRestForm() {
+        return presentationService.findAllPresentations();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public Presentation sendOneRestForm(@PathVariable Long id) {
+        return presentationService.findPresentationById(id).get();
+    }
+
+    @PostMapping("/create-rest")
+    @ResponseBody
+    public Presentation createPresentation(@RequestBody Presentation presentation) {
+        presentation.setId(null);
+        return presentationService.saveOrUpdate(presentation);
+    }
+
+    @PutMapping("/put-rest/{id}")
+    @ResponseBody
+    public Presentation putPresentation(@PathVariable Long id, @RequestBody Presentation presentation) {
+        presentation.setId(id);
+        return presentationService.saveOrUpdate(presentation);
+    }
+
+    @DeleteMapping("delete-rest/{id}")
+    @ResponseBody
+    public void deleteRestById(@PathVariable Long id) {
+        presentationService.deletePresentationById(id);
+    }
+
 }

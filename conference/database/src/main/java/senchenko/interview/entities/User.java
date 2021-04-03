@@ -1,6 +1,9 @@
 package senchenko.interview.entities;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
+import senchenko.interview.entities.views.CommonView;
+import senchenko.interview.entities.views.ScheduleView;
 
 import javax.persistence.*;
 import java.util.ArrayList;

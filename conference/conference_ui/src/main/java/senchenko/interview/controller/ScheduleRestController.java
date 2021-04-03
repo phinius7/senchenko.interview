@@ -3,6 +3,7 @@ package senchenko.interview.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,9 +13,11 @@ import senchenko.interview.entities.views.ScheduleView;
 import senchenko.interview.services.RoomService;
 import senchenko.interview.services.ScheduleServiceImpl;
 
-import java.util.HashMap;
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.toMap;
 
 @RestController
 @RequestMapping("/schedule/api/v1")
@@ -35,6 +38,7 @@ public class ScheduleRestController {
         return getMap();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
     @JsonView(ScheduleView.ScheduleInfo.class)
     public Map<Room, List<Schedule>> scheduleInRoomToJson() {
@@ -42,13 +46,10 @@ public class ScheduleRestController {
     }
 
     private Map<Room, List<Schedule>> getMap() {
-        Map<Room, List<Schedule>> roomsSchedulesMap = new HashMap<>();
         List<Room> rooms = roomService.findAllRooms();
-        for (Room r : rooms) {
-            assert false;
-            roomsSchedulesMap.put(r, scheduleService.getSchedulesByRoom(r));
-        }
-        return roomsSchedulesMap;
+        return rooms.stream()
+                .map(r -> new AbstractMap.SimpleEntry<>(r, scheduleService.getSchedulesByRoom(r)))
+                .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
     }
 
 }

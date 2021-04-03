@@ -7,18 +7,19 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import senchenko.interview.entities.User;
-import senchenko.interview.services.RoleService;
-import senchenko.interview.services.UserService;
+import senchenko.interview.services.RoleServiceImpl;
+import senchenko.interview.services.UserServiceImpl;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
-    private final RoleService roleService;
+    private final UserServiceImpl userService;
+    private final RoleServiceImpl roleService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -39,6 +40,7 @@ public class UserController {
         model.addAttribute("roles", roleService.findAllRoles());
         return "add_user";
     }
+
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/add")
     public String showAddUserForm(@Valid @ModelAttribute User user, BindingResult bindingResult) {
@@ -72,5 +74,37 @@ public class UserController {
     public String deleteUserById(@PathVariable Long id) {
         userService.deleteUserById(id);
         return "redirect:/users";
+    }
+
+    @GetMapping("/rest")
+    @ResponseBody
+    public List<User> sendUsersRestForm() {
+        return userService.findAllUsers();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public User sendOneUser(@PathVariable Long id) {
+        return userService.findUserById(id).get();
+    }
+
+    @PostMapping("create-rest")
+    @ResponseBody
+    public User createUser(@RequestBody User user) {
+        user.setId(null);
+        return userService.saveOrUpdate(user);
+    }
+
+    @PutMapping("/put-rest/{id}")
+    @ResponseBody
+    public User putUser(@PathVariable Long id, @RequestBody User user) {
+        user.setId(id);
+        return userService.saveOrUpdate(user);
+    }
+
+    @DeleteMapping("/delete-rest/{id}")
+    @ResponseBody
+    public void deleteRestById(@PathVariable Long id) {
+        userService.deleteUserById(id);
     }
 }
