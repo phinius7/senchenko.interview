@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body class="bg-light">
+<nav th:replace="fragments/header :: navbar"></nav>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <div class="content p-4">
+        <h2 class="mb-4">Add New Lecture</h2>
+        <form method="post" th:action="@{/lectures/add}">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="form-group">
+                        <div th:object="${presentation}">
+                            <input th:type="hidden" th:field="*{id}">
+                            <label for="title">Title</label>
+                            <input th:field="*{title}" type="text" class="form-control" id="title"
+                                   placeholder="Enter the title" required>
+                        </div>
+                        <hr>
+                        <div class="form-group" th:object="${schedule}">
+                            <input th:type="hidden" th:field="*{id}">
+                            <label for="start-time">Start Time</label>
+                            <input th:field="*{startTime}" type="datetime-local" id="start-time" name="start"/>
+                            <hr>
+                            <label for="end-time">End Time</label>
+                            <input th:field="*{endTime}" type="datetime-local" id="end-time" name="end"/>
+                            <hr>
+                            <label for="room">Room</label>
+                            <select class="form-control" id="room" th:field="*{room}" required>
+                                <option th:each="r : ${rooms}"
+                                        th:text="${r.classroom}"
+                                        th:value="${r.id}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success btn-pill" type="submit">Add</button>
+            <a class="btn btn-danger btn-pill" th:href="@{/lectures/add}">Clear</a>
+            <a class="btn btn-primary btn-pill" th:href="@{/lectures}">Back</a>
+        </form>
+    </div>
+</div>
+
+<script th:replace="fragments/footer :: scripts"></script>
+
+</body>
+</html>

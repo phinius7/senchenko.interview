@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body class="bg-light">
+<div th:fragment="sidebar" class="sidebar sidebar-dark bg-dark">
+    <ul class="list-unstyled">
+        <li><a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_PRESENTER')" th:href="@{/lectures}"><i class="fa fa-fw fa-link"></i> Lectures</a></li>
+        <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/users}"><i class="fa fa-fw fa-link"></i> Users list</a></li>
+        <hr sec:authorize="isAuthenticated()">
+        <li><a sec:authorize="!isAuthenticated()" th:href="@{/login}"><i class="fa fa-fw fa-edit"></i> Sign In</a></li>
+        <li><a sec:authorize="!isAuthenticated()" th:href="@{/registration}"><i class="fa fa-fw fa-flag"></i> Sign Up</a></li>
+        <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}"><i class="fa fa-fw fa-eject"></i> Logout</a></li>
+    </ul>
+</div>
+
+</body>
+
+</html>

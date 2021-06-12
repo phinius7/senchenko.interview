@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body class="bg-light">
+<nav th:replace="fragments/header :: navbar"></nav>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <div class="content p-4">
+        <h2 class="mb-4">View user list</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <table id="users" class="table table-hover">
+                    <thead class="thead-light">
+                    <tr>
+                        <th>Id</th>
+                        <th>User</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th class="actions">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="u : ${users}">
+                        <td th:text="${u.id}"></td>
+                        <td th:text="${u.username}"></td>
+                        <td th:text="${u.firstName} + ' ' + ${u.lastName}"></td>
+                        <td th:text="${u.email}"></td>
+                        <td>
+                            <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{'/users/edit/' + ${u.id}}" class="btn btn-icon btn-pill btn-primary"
+                               data-toggle="tooltip" title="" data-original-title="Edit"><i
+                                    class="fa fa-fw fa-edit"></i></a>
+                            <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{'/users/delete/' + ${u.id}}" class="btn btn-icon btn-pill btn-danger"
+                               data-toggle="tooltip" title="" data-original-title="Delete"><i
+                                    class="fa fa-fw fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body">
+                <a class="btn btn-primary btn-lg btn-block btn-pill" th:href="@{'/users/add/'}">Create</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/footer :: scripts"></script>
+<script th:src="@{/js/datatables.min.js}"></script>
+<script>
+    $(document).ready(function () {
+        $('#users').DataTable();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body class="bg-light">
+<nav th:replace="fragments/header :: navbar"></nav>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <div class="content p-4">
+        <h2 class="mb-4">Welcome To Conference</h2>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4" th:each="room : ${rooms}">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <span>
+                                    <h5>Room </h5>
+                                    <h3 th:text="${room.classroom}"></h3>
+                                    <hr>
+                                </span>
+                                <div class="card-text" th:each="schedule : ${schedules}">
+                                    <div th:if="${schedule.room == room}">
+                                        <h4 th:text="${schedule.presentation.title}"></h4>
+                                        <div th:each="author : ${schedule.presentation.authors}">
+                                            <p th:text="${author}"></p>
+                                        </div>
+                                        <p>From</p>
+                                        <p th:text="${schedule.startTime}"></p>
+                                        <p>To</p>
+                                        <p th:text="${schedule.endTime}"></p>
+                                        <!--Заглушка-->
+                                        <a class="btn btn-primary btn-pill"
+                                           th:href="@{/inside_conference}">Read This</a>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/footer :: scripts"></script>
+
+</body>
+</html>
